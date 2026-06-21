@@ -7,6 +7,9 @@ dependencies = [
     "fastapi>=0.110",
     "pydantic>=2.0",
     "uvicorn>=0.29",
+    "psycopg2-binary>=2.9",
+    "langgraph>=0.0.20",
+    "anthropic>=0.35",
 ]
 
 [project.optional-dependencies]
@@ -19,6 +22,7 @@ dev = [
 [tool.pytest.ini_options]
 markers = [
     "requirement: tags a test with a DO-178C requirement ID (REQ-XXX)",
+    "integration: integration tests requiring external infrastructure",
 ]
 
 [tool.coverage.report]
