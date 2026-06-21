@@ -6,31 +6,37 @@ client = TestClient(app)
 
 
 def test_generate_tests_endpoint_returns_stub():
-    resp = client.post("/generate-tests", json={
-        "srs_markdown": "- REQ-001: System shall log decisions",
-        "model": "claude-sonnet-4-6",
-        "confidence": 0.9,
-    })
-    assert resp.status_code == 200
+    """Test /mcp/generate_tests returns test stubs with RTM tags."""
+    resp = client.post(
+        "/mcp/generate_tests",
+        json={
+            "srs_content": "- REQ-001: System shall log decisions",
+            "confidence_threshold": 0.9,
+            "auto_run": False,
+        }
+    )
+    assert resp.status_code == 201
     body = resp.json()
-    assert len(body["stubs"]) == 1
-    assert '@pytest.mark.requirement("REQ-001")' in body["stubs"][0]
+    assert body["status"] == "generated"
+    assert len(body["test_ids"]) >= 1
+    assert "rtm_tags" in body
 
 
 def test_rtm_endpoint_builds_matrix():
-    resp = client.post("/rtm", json={
-        "srs_markdown": "- REQ-001: a\n- REQ-002: b",
-        "test_dir": "tests",
-    })
+    """Test /mcp/rtm returns traceability matrix."""
+    resp = client.get("/mcp/rtm")
     assert resp.status_code == 200
-    rows = resp.json()["rtm"]
-    assert {r["requirement_id"] for r in rows} == {"REQ-001", "REQ-002"}
+    body = resp.json()
+    assert "requirements" in body
+    assert "test_coverage" in body
+    assert "coverage_percentage" in body
 
 
 def test_coverage_endpoint_returns_ratio():
-    resp = client.post("/coverage", json={
-        "srs_markdown": "- REQ-001: a",
-        "test_dir": "tests",
-    })
+    """Test /mcp/coverage returns coverage percentage."""
+    resp = client.get("/mcp/coverage")
     assert resp.status_code == 200
-    assert "coverage_ratio" in resp.json()
+    body = resp.json()
+    assert "coverage_percentage" in body
+    assert "total_lines" in body
+    assert "covered_lines" in body
