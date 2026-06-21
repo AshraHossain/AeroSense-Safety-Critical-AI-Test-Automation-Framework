@@ -42,13 +42,14 @@ Use ponytail mode for all implementation work in this repo — lazy-first ladder
 
 1. `Skill: "graphify"` — load knowledge graph, check component state
 2. `Skill: "gsd"` (`/gsd-plan`) — define phase scope, files affected, RTM impact, acceptance criteria. Wait for explicit approval.
-3. Write **compliance tests first** (RTM tags + audit log verification) — RED
-4. Write unit/integration tests — RED
-5. Implement to GREEN
-6. Run RTM coverage check — must stay ≥ 90%
-7. `code-reviewer` agent — check for DO-178C pattern violations
-8. Commit: `type(scope): description` + `Co-Author: Claude` (see Git Conventions)
-9. `graphify update .` — refresh knowledge graph
+3. `Skill: "superpowers:test-driven-development"` — invoke before writing any test or implementation code. Follow it RIGID, no shortcuts.
+4. Write **compliance tests first** (RTM tags + audit log verification) — RED
+5. Write unit/integration tests — RED
+6. Implement to GREEN
+7. Run RTM coverage check — must stay ≥ 90%
+8. `code-reviewer` agent — check for DO-178C pattern violations
+9. Commit: `type(scope): description` + `Co-Author: Claude` (see Git Conventions)
+10. `graphify update .` — refresh knowledge graph
 
 ---
 
