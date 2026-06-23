@@ -8,6 +8,13 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
+# Telemetry: metrics counter and tracing available via src.telemetry module
+try:
+    from src.telemetry import get_meter, get_tracer
+except ImportError:
+    get_meter = lambda: None
+    get_tracer = lambda: None
+
 from src.audit_logger.postgres_logger import PostgresAuditLogger
 from src.hitl_orchestrator.orchestrator import HITLOrchestrator
 from src.requirements_parser.parser import parse_srs
