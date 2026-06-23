@@ -1,0 +1,35 @@
+# Production environment overrides
+
+replicaCount: 3
+
+image:
+  tag: latest
+  pullPolicy: Always
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+config:
+  LOG_LEVEL: warn
+
+postgres:
+  replicas: 1
+  storage: 50Gi
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: aerosense.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: aerosense-tls
+      hosts:
+        - aerosense.example.com

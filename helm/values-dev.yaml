@@ -1,0 +1,24 @@
+# Development environment overrides
+
+replicaCount: 1
+
+image:
+  tag: dev
+
+service:
+  port: 8000
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+config:
+  LOG_LEVEL: debug
+
+postgres:
+  replicas: 1
+  storage: 1Gi
