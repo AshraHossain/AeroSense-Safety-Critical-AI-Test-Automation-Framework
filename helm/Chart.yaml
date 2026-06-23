@@ -1,0 +1,17 @@
+apiVersion: v2
+name: aerosense
+description: AeroSense-TestForge Helm chart for Kubernetes deployment
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+maintainers:
+  - name: AeroSense AI
+    email: support@aerosense.ai
+keywords:
+  - testing
+  - automation
+  - ai
+  - do-178c
+home: https://github.com/AshraHossain/aerosense-testforge
+sources:
+  - https://github.com/AshraHossain/aerosense-testforge

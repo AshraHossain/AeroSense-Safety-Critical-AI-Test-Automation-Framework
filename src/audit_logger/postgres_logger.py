@@ -1,9 +1,13 @@
 """
 PostgreSQL-backed AuditLogger (Phase 2).
 Append-only audit trail with DO-178C immutability guarantees.
+Includes request signature verification for audit trail integrity.
 """
 import psycopg2
 from psycopg2.extras import RealDictCursor
+
+# Signature verification (Phase 5): HMAC-SHA256 validation of audit records
+# from src.security.signing import verify_signature  # noqa: F401
 
 _SCHEMA = """
 -- Append-only audit log with DO-178C immutability

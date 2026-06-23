@@ -23,6 +23,17 @@ from src.test_generator.generator import generate_test_stub
 
 app = FastAPI(title="AeroSense-TestForge MCP Server")
 
+# Security headers middleware
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    """Add security headers to all responses."""
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline'"
+    return response
+
 # Initialize optional dependencies (use environment-based config in production)
 _AUDIT_LOGGER: Optional[PostgresAuditLogger] = None
 _HITL_ORCHESTRATOR: Optional[HITLOrchestrator] = None
