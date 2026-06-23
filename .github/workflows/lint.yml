@@ -20,7 +20,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install ruff black mypy
+          pip install ruff black mypy bandit safety
+
+      - name: Security scanning with bandit
+        run: bandit -r src/ -ll || true
+
+      - name: Dependency vulnerability check
+        run: safety check --json || true
 
       - name: Check code formatting with black
         run: black --check src tests

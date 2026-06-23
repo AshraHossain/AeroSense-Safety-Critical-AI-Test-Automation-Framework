@@ -1,0 +1,45 @@
+groups:
+  - name: aerosense_alerts
+    interval: 30s
+    rules:
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, http_request_duration_seconds) > 0.5
+        for: 5m
+        annotations:
+          summary: "High request latency (p95 > 500ms)"
+          description: "{{ instance }} has p95 latency of {{ $value }}s"
+
+      - alert: HighErrorRate
+        expr: rate(http_request_failed[5m]) > 0.001
+        for: 5m
+        annotations:
+          summary: "High error rate (> 0.1%)"
+          description: "{{ instance }} error rate: {{ $value }}"
+
+      - alert: RateLimitExceeded
+        expr: increase(rate_limit_exceeded_total[5m]) > 0
+        for: 2m
+        annotations:
+          summary: "Rate limit being exceeded"
+          description: "{{ instance }} exceeded rate limit {{ $value }} times"
+
+      - alert: DatabaseConnectionFailing
+        expr: up{job="postgres"} == 0
+        for: 1m
+        annotations:
+          summary: "Database connection failed"
+          description: "PostgreSQL at {{ instance }} is unreachable"
+
+      - alert: PodRestartingTooOften
+        expr: rate(container_last_seen{pod=~"aerosense.*"}[15m]) > 0.1
+        for: 5m
+        annotations:
+          summary: "Pod restarting too often"
+          description: "{{ pod }} has restarted {{ $value }} times in 15m"
+
+      - alert: HighMemoryUsage
+        expr: container_memory_usage_bytes{pod=~"aerosense.*"} / 1024 / 1024 > 450
+        for: 5m
+        annotations:
+          summary: "High memory usage (> 450MB)"
+          description: "{{ pod }} using {{ $value }}MB memory"

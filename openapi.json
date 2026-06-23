@@ -1,0 +1,125 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AeroSense-TestForge MCP API",
+    "version": "0.1.0",
+    "description": "AI-powered test automation for DO-178C compliance"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Local development"
+    },
+    {
+      "url": "https://aerosense.example.com",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/mcp/generate_tests": {
+      "post": {
+        "summary": "Generate test stubs from SRS",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "srs_content": {"type": "string"},
+                  "confidence_threshold": {"type": "number", "default": 0.75},
+                  "auto_run": {"type": "boolean", "default": false}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {"description": "Tests generated"}
+        }
+      }
+    },
+    "/mcp/hitl/pending": {
+      "get": {
+        "summary": "Get pending HITL actions",
+        "responses": {
+          "200": {"description": "List of pending actions"}
+        }
+      }
+    },
+    "/mcp/hitl/submit": {
+      "post": {
+        "summary": "Submit action for HITL approval",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action_id": {"type": "string"},
+                  "action_type": {"type": "string"},
+                  "proposed_change": {"type": "object"},
+                  "confidence": {"type": "number"},
+                  "reversible": {"type": "boolean"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {"description": "Action submitted"}
+        }
+      }
+    },
+    "/mcp/hitl/approve/{action_id}": {
+      "post": {
+        "summary": "Approve pending action",
+        "parameters": [
+          {
+            "name": "action_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {"description": "Action approved"},
+          "404": {"description": "Action not found"}
+        }
+      }
+    },
+    "/mcp/audit": {
+      "get": {
+        "summary": "Get audit log records",
+        "responses": {
+          "200": {"description": "Audit records"}
+        }
+      }
+    },
+    "/mcp/audit/export": {
+      "get": {
+        "summary": "Export audit log",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {"type": "string", "enum": ["json", "csv"]},
+            "default": "json"
+          }
+        ],
+        "responses": {
+          "200": {"description": "Exported audit data"}
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {"description": "Service healthy"}
+        }
+      }
+    }
+  }
+}

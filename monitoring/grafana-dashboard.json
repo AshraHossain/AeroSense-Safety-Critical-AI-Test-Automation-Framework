@@ -1,0 +1,71 @@
+{
+  "dashboard": {
+    "title": "AeroSense-TestForge",
+    "panels": [
+      {
+        "title": "Request Latency (p95)",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, http_request_duration_seconds)"
+          }
+        ]
+      },
+      {
+        "title": "Request Throughput",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total[5m])"
+          }
+        ]
+      },
+      {
+        "title": "Error Rate",
+        "targets": [
+          {
+            "expr": "rate(http_request_failed[5m])"
+          }
+        ]
+      },
+      {
+        "title": "HITL Decisions",
+        "targets": [
+          {
+            "expr": "rate(hitl_decisions_total[5m])"
+          }
+        ]
+      },
+      {
+        "title": "Audit Log Writes",
+        "targets": [
+          {
+            "expr": "rate(audit_log_writes_total[5m])"
+          }
+        ]
+      },
+      {
+        "title": "Pod CPU Usage",
+        "targets": [
+          {
+            "expr": "container_cpu_usage_seconds_total{pod=~\"aerosense.*\"}"
+          }
+        ]
+      },
+      {
+        "title": "Pod Memory Usage",
+        "targets": [
+          {
+            "expr": "container_memory_usage_bytes{pod=~\"aerosense.*\"} / 1024 / 1024"
+          }
+        ]
+      },
+      {
+        "title": "Rate Limit Violations",
+        "targets": [
+          {
+            "expr": "rate_limit_exceeded_total"
+          }
+        ]
+      }
+    ]
+  }
+}

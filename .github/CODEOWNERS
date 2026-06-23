@@ -1,0 +1,19 @@
+# AeroSense TestForge Code Ownership
+
+# DO-178C compliance-critical modules
+src/audit_logger/ @AshraHossain
+src/hitl_orchestrator/ @AshraHossain
+alembic/ @AshraHossain
+
+# Core functionality
+src/test_generator/ @AshraHossain
+src/requirements_parser/ @AshraHossain
+src/rtm_builder/ @AshraHossain
+
+# Infrastructure
+helm/ @AshraHossain
+k8s/ @AshraHossain
+.github/workflows/ @AshraHossain
+
+# All pull requests require review
+* @AshraHossain
