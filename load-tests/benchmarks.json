@@ -1,0 +1,28 @@
+{
+  "slos": {
+    "latency": {
+      "p95_ms": 500,
+      "p99_ms": 1000,
+      "p999_ms": 2000
+    },
+    "throughput": {
+      "min_rps": 50,
+      "target_rps": 100,
+      "max_rps": 200
+    },
+    "error_rate": {
+      "max_percent": 0.1
+    }
+  },
+  "resource_limits": {
+    "cpu_cores": 0.5,
+    "memory_mb": 512,
+    "postgres_connections": 20
+  },
+  "scaling": {
+    "min_replicas": 2,
+    "max_replicas": 10,
+    "cpu_target_percent": 70,
+    "memory_target_percent": 80
+  }
+}

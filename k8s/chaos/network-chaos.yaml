@@ -1,0 +1,38 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: aerosense-network-latency
+  namespace: default
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - default
+    labelSelectors:
+      app: aerosense
+  delay:
+    latency: 100ms
+    jitter: 10ms
+  duration: 5m
+  scheduler:
+    cron: ""
+---
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: aerosense-packet-loss
+  namespace: default
+spec:
+  action: loss
+  mode: all
+  selector:
+    namespaces:
+      - default
+    labelSelectors:
+      app: aerosense
+  loss:
+    loss: "1%"
+  duration: 5m
+  scheduler:
+    cron: ""
